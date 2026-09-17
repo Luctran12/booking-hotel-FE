@@ -1,0 +1,1005 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Stayora — Hotel Booking & Operations Mockup UI</title>
+  <!-- Google Fonts: Plus Jakarta Sans -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <!-- Google Material Symbols -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+  <!-- Stylesheet -->
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- 1. Top Role Switcher Bar (Demo Navigation) -->
+  <header class="role-bar">
+    <div class="role-bar-inner">
+      <div class="role-bar-brand">
+        <span>STAYORA MOCKUP UI</span>
+        <span class="role-bar-badge">Live Interactive Prototype</span>
+      </div>
+      <div class="role-bar-nav">
+        <span style="font-size: 11px; opacity: 0.7; margin-right: 4px;">SWITCH WORKSPACE:</span>
+        <button class="role-btn active" data-role="guest" onclick="navigate('home')">
+          <span class="material-symbols-outlined" style="font-size:16px;">travel_explore</span>
+          <span>Guest Storefront</span>
+        </button>
+        <button class="role-btn" data-role="owner" onclick="navigate('owner/dashboard')">
+          <span class="material-symbols-outlined" style="font-size:16px;">apartment</span>
+          <span>Hotel Owner</span>
+        </button>
+        <button class="role-btn" data-role="staff" onclick="navigate('staff/dashboard')">
+          <span class="material-symbols-outlined" style="font-size:16px;">badge</span>
+          <span>Hotel Staff</span>
+        </button>
+        <button class="role-btn" data-role="admin" onclick="navigate('admin/dashboard')">
+          <span class="material-symbols-outlined" style="font-size:16px;">shield_person</span>
+          <span>System Admin</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- 2. Guest Header Navigation -->
+  <div id="guest-header" class="guest-header">
+    <div class="container guest-header-inner">
+      <a href="#home" class="brand-logo">
+        <span class="brand-stay">stay</span><span class="brand-ora">ora</span>
+      </a>
+      <ul class="nav-links">
+        <li><a href="#search">Stays</a></li>
+        <li><a href="#my-bookings">My Bookings</a></li>
+        <li><a href="#lookup">Find a Booking</a></li>
+        <li><a href="#home#discover">Discover</a></li>
+      </ul>
+      <div class="header-actions">
+        <button class="btn btn-text" onclick="openModal('modal-auth')">Sign in</button>
+        <button class="btn btn-primary" onclick="openModal('modal-auth')">Create account</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MAIN VIEW CONTAINERS -->
+
+  <!-- VIEW 1: HOME PAGE -->
+  <section id="view-home" class="view-section active">
+    <div class="hero">
+      <div class="container">
+        <span class="hero-tag">Handpicked stays, simple booking</span>
+        <h1>Find a stay worth remembering.</h1>
+        <p>From quiet coastlines to lively city corners, find the place that makes your journey feel like yours.</p>
+
+        <!-- Search Bar -->
+        <div class="search-card">
+          <div class="search-grid">
+            <div class="search-field">
+              <label>Where are you going?</label>
+              <div class="search-input-wrap">
+                <span class="material-symbols-outlined">location_on</span>
+                <input type="text" value="Da Nang, Vietnam">
+              </div>
+            </div>
+            <div class="search-field">
+              <label>Check-in</label>
+              <div class="search-input-wrap">
+                <span class="material-symbols-outlined">calendar_today</span>
+                <input type="date" id="home-checkin" value="2026-10-18" onchange="syncSearchDates('home-checkin', 'home-checkout')">
+              </div>
+            </div>
+            <div class="search-field">
+              <label>Check-out</label>
+              <div class="search-input-wrap">
+                <span class="material-symbols-outlined">calendar_today</span>
+                <input type="date" id="home-checkout" value="2026-10-21">
+              </div>
+            </div>
+            <div class="search-field" style="position: relative;">
+              <label>Guests & Rooms</label>
+              <div class="search-input-wrap" style="cursor: pointer;" onclick="toggleGuestsPopover('home-guests-popover', event)">
+                <span class="material-symbols-outlined">group</span>
+                <span id="home-guests-label" style="font-size: 14px; font-weight: 600; color: var(--text-main); flex: 1;">2 guests · 1 room</span>
+                <span class="material-symbols-outlined" style="font-size: 18px; color: var(--text-muted);">arrow_drop_down</span>
+              </div>
+              <!-- Popover -->
+              <div id="home-guests-popover" class="guests-popover" onclick="event.stopPropagation();">
+                <div class="popover-row">
+                  <div>
+                    <div class="popover-title">Guests</div>
+                    <div class="popover-sub">Ages 13 or above</div>
+                  </div>
+                  <div class="counter-wrap">
+                    <button class="counter-btn" type="button" onclick="adjustCount('guests', -1)"><span class="material-symbols-outlined">remove</span></button>
+                    <span class="counter-val" id="val-guests">2</span>
+                    <button class="counter-btn" type="button" onclick="adjustCount('guests', 1)"><span class="material-symbols-outlined">add</span></button>
+                  </div>
+                </div>
+                <div class="popover-divider"></div>
+                <div class="popover-row">
+                  <div>
+                    <div class="popover-title">Rooms</div>
+                    <div class="popover-sub">How many rooms?</div>
+                  </div>
+                  <div class="counter-wrap">
+                    <button class="counter-btn" type="button" onclick="adjustCount('rooms', -1)"><span class="material-symbols-outlined">remove</span></button>
+                    <span class="counter-val" id="val-rooms">1</span>
+                    <button class="counter-btn" type="button" onclick="adjustCount('rooms', 1)"><span class="material-symbols-outlined">add</span></button>
+                  </div>
+                </div>
+                <button class="btn btn-primary btn-sm btn-full" style="margin-top: 14px;" type="button" onclick="closeAllGuestsPopovers()">Done</button>
+              </div>
+            </div>
+            <button class="btn btn-primary btn-lg" onclick="navigate('search')">
+              <span class="material-symbols-outlined">search</span> Search Stays
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Featured Hotels Section -->
+    <div class="section" id="discover">
+      <div class="container">
+        <div class="section-header">
+          <div>
+            <span class="section-eyebrow">Curated for you</span>
+            <h2 class="section-title">The stay starts here</h2>
+            <p class="section-desc">Places with a sense of place, selected for the way you travel.</p>
+          </div>
+          <button class="btn btn-outline" onclick="navigate('search')">Explore all stays <span class="material-symbols-outlined">chevron_right</span></button>
+        </div>
+        <div class="grid-3" id="home-hotel-grid">
+          <!-- Populated by JavaScript -->
+        </div>
+
+        <!-- Promo Banner for Hotel Owners -->
+        <div class="promo-box">
+          <div>
+            <h3 class="promo-title">Manage a hotel?</h3>
+            <p class="promo-desc">Explore the mock workspace designed for hospitality managers, staff, and system admins.</p>
+          </div>
+          <button class="btn btn-secondary btn-lg" onclick="navigate('owner/dashboard')">
+            <span class="material-symbols-outlined">apartment</span> Open Owner Workspace
+          </button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- VIEW 2: SEARCH RESULTS -->
+  <section id="view-search" class="view-section">
+    <div class="container" style="padding-top: 36px; padding-bottom: 60px;">
+      <!-- Search Header -->
+      <div class="search-card" style="margin-top: 0; margin-bottom: 32px;">
+        <div class="search-grid">
+          <div class="search-field">
+            <label>Destination</label>
+            <div class="search-input-wrap">
+              <span class="material-symbols-outlined">location_on</span>
+              <input type="text" value="Da Nang, Vietnam">
+            </div>
+          </div>
+          <div class="search-field">
+            <label>Check-in</label>
+            <div class="search-input-wrap">
+              <span class="material-symbols-outlined">calendar_today</span>
+              <input type="date" id="search-checkin" value="2026-10-18" onchange="syncSearchDates('search-checkin', 'search-checkout')">
+            </div>
+          </div>
+          <div class="search-field">
+            <label>Check-out</label>
+            <div class="search-input-wrap">
+              <span class="material-symbols-outlined">calendar_today</span>
+              <input type="date" id="search-checkout" value="2026-10-21">
+            </div>
+          </div>
+          <div class="search-field" style="position: relative;">
+            <label>Guests</label>
+            <div class="search-input-wrap" style="cursor: pointer;" onclick="toggleGuestsPopover('search-guests-popover', event)">
+              <span class="material-symbols-outlined">group</span>
+              <span id="search-guests-label" style="font-size: 14px; font-weight: 600; color: var(--text-main); flex: 1;">2 guests · 1 room</span>
+              <span class="material-symbols-outlined" style="font-size: 18px; color: var(--text-muted);">arrow_drop_down</span>
+            </div>
+            <!-- Popover -->
+            <div id="search-guests-popover" class="guests-popover" onclick="event.stopPropagation();">
+              <div class="popover-row">
+                <div>
+                  <div class="popover-title">Guests</div>
+                  <div class="popover-sub">Ages 13 or above</div>
+                </div>
+                <div class="counter-wrap">
+                  <button class="counter-btn" type="button" onclick="adjustCount('guests', -1)"><span class="material-symbols-outlined">remove</span></button>
+                  <span class="counter-val" id="val-guests-search">2</span>
+                  <button class="counter-btn" type="button" onclick="adjustCount('guests', 1)"><span class="material-symbols-outlined">add</span></button>
+                </div>
+              </div>
+              <div class="popover-divider"></div>
+              <div class="popover-row">
+                <div>
+                  <div class="popover-title">Rooms</div>
+                  <div class="popover-sub">How many rooms?</div>
+                </div>
+                <div class="counter-wrap">
+                  <button class="counter-btn" type="button" onclick="adjustCount('rooms', -1)"><span class="material-symbols-outlined">remove</span></button>
+                  <span class="counter-val" id="val-rooms-search">1</span>
+                  <button class="counter-btn" type="button" onclick="adjustCount('rooms', 1)"><span class="material-symbols-outlined">add</span></button>
+                </div>
+              </div>
+              <button class="btn btn-primary btn-sm btn-full" style="margin-top: 14px;" type="button" onclick="closeAllGuestsPopovers()">Done</button>
+            </div>
+          </div>
+          <button class="btn btn-primary btn-lg" onclick="setSearchMode('results')">
+            <span class="material-symbols-outlined">search</span> Update
+          </button>
+        </div>
+      </div>
+
+      <div class="section-header">
+        <div>
+          <h2 class="section-title">Stays in Da Nang</h2>
+          <p class="section-desc">18–21 October · <span id="search-desc-guests">2 guests · 1 room</span> · 12 stays found</p>
+        </div>
+        <div style="display: flex; gap: 8px; align-items: center;">
+          <span style="font-size: 13px; color: var(--text-muted);">Sort by:</span>
+          <select class="form-control" style="width: auto;">
+            <option>Recommended</option>
+            <option>Price: low to high</option>
+            <option>Highest rating</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Layout: Filter Sidebar & Results List -->
+      <div style="display: grid; grid-template-columns: 280px 1fr; gap: 32px; align-items: start;">
+        <!-- Filters Sidebar -->
+        <div class="card" style="padding: 24px;">
+          <h3 style="font-size: 16px; font-weight: 800; margin-bottom: 20px;">Filter your stay</h3>
+          
+          <div class="form-group">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+              <label class="form-label" style="margin-bottom: 0;">Price per night</label>
+              <span id="filter-price-display" style="font-size: 13px; font-weight: 800; color: var(--primary);">$60 — $150 / night</span>
+            </div>
+            <input type="range" id="filter-price-slider" min="60" max="250" step="5" value="150" style="width: 100%; accent-color: var(--primary);" oninput="onPriceSliderChange(this.value)">
+            <div style="display: flex; justify-content: space-between; font-size: 11px; color: var(--text-muted); margin-top: 4px;">
+              <span>Min: $60</span>
+              <span>Max: $250</span>
+            </div>
+          </div>
+
+          <div class="form-group" style="margin-top: 24px;">
+            <label class="form-label">Property Amenities</label>
+            <div style="display:flex; flex-direction:column; gap:8px; margin-top:8px;">
+              <label style="font-size: 13.5px; display:flex; align-items:center; gap:8px;"><input type="checkbox" checked> Beachfront</label>
+              <label style="font-size: 13.5px; display:flex; align-items:center; gap:8px;"><input type="checkbox" checked> Swimming Pool</label>
+              <label style="font-size: 13.5px; display:flex; align-items:center; gap:8px;"><input type="checkbox" checked> Breakfast Included</label>
+              <label style="font-size: 13.5px; display:flex; align-items:center; gap:8px;"><input type="checkbox"> Spa & Wellness</label>
+              <label style="font-size: 13.5px; display:flex; align-items:center; gap:8px;"><input type="checkbox"> Airport Shuttle</label>
+            </div>
+          </div>
+
+          <div style="border-top: 1px solid var(--border); padding-top: 20px; margin-top: 24px;">
+            <label class="form-label" style="font-size: 11px; text-transform: uppercase; color: var(--text-muted);">MOCKUP STATE DEMO</label>
+            <p style="font-size: 12px; color: var(--text-muted); margin-bottom: 10px;">Switch UI state to test preview:</p>
+            <div style="display:flex; flex-wrap:wrap; gap:6px;">
+              <button class="btn btn-sm btn-outline preview-mode-btn btn-primary" data-mode="results" onclick="setSearchMode('results')">Results</button>
+              <button class="btn btn-sm btn-outline preview-mode-btn" data-mode="loading" onclick="setSearchMode('loading')">Loading</button>
+              <button class="btn btn-sm btn-outline preview-mode-btn" data-mode="empty" onclick="setSearchMode('empty')">Empty</button>
+              <button class="btn btn-sm btn-outline preview-mode-btn" data-mode="error" onclick="setSearchMode('error')">Error</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Results List Area -->
+        <div id="search-results-list">
+          <!-- Populated by JavaScript -->
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- VIEW 3: HOTEL DETAIL & ROOM SELECTION -->
+  <section id="view-hotels" class="view-section">
+    <div class="container" style="padding-top: 28px; padding-bottom: 60px;">
+      <!-- Breadcrumbs -->
+      <div style="display:flex; gap: 8px; font-size: 13px; color: var(--text-muted); margin-bottom: 20px;">
+        <a href="#search" style="color: var(--primary); font-weight: 600;">Stays in Da Nang</a>
+        <span>/</span>
+        <span id="detail-hotel-name">Azure Bay Resort</span>
+      </div>
+
+      <!-- Photo Gallery (Fixed 3-Image Layout) -->
+      <div class="gallery-grid">
+        <div class="gallery-main">
+          <img id="detail-main-img" src="https://images.unsplash.com/photo-1564501049412-61c2a3083791?auto=format&fit=crop&w=1200&q=85" alt="Hotel main view">
+        </div>
+        <div class="gallery-side">
+          <div class="gallery-item">
+            <img src="https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?auto=format&fit=crop&w=600&q=85" alt="Room preview">
+          </div>
+          <div class="gallery-item">
+            <img src="https://images.unsplash.com/photo-1571896349842-33c89424de2d?auto=format&fit=crop&w=600&q=85" alt="Pool & beach view">
+          </div>
+        </div>
+      </div>
+
+      <!-- Layout: Detail Left & Sticky Plan Right -->
+      <div class="detail-layout">
+        <div>
+          <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+            <div>
+              <h1 style="font-size: 34px; font-weight: 900; letter-spacing: -0.5px;">Azure Bay Resort</h1>
+              <p id="detail-hotel-location" class="card-location" style="font-size: 15px; margin-top: 6px;">
+                <span class="material-symbols-outlined">location_on</span> My Khe Beach, Da Nang · 4.2 km from center
+              </p>
+            </div>
+            <button class="card-favorite" style="position:static;" onclick="toggleFavorite(this)"><span class="material-symbols-outlined">favorite</span></button>
+          </div>
+
+          <div style="display: flex; gap: 10px; margin: 18px 0 24px;">
+            <span class="chip chip-primary"><span class="material-symbols-outlined" style="font-size:16px;">star</span> 4.9 Exceptional (326 reviews)</span>
+            <span class="chip">Beachfront</span>
+            <span class="chip">Free Cancellation Available</span>
+          </div>
+
+          <p id="detail-hotel-desc" style="font-size: 16px; line-height: 1.7; color: var(--text-secondary); margin-bottom: 28px;">
+            A calm coastal retreat with sunrise views, thoughtful service, and modern Vietnamese character. Step into airy rooms, take a dip in the infinity pool, or linger over locally inspired dishes by the water.
+          </p>
+
+          <h3 style="font-size: 20px; font-weight: 800; margin-bottom: 16px;">Popular Property Facilities</h3>
+          <div class="features-list">
+            <div class="feature-item"><span class="material-symbols-outlined">pool</span> Outdoor Infinity Pool</div>
+            <div class="feature-item"><span class="material-symbols-outlined">restaurant</span> Oceanfront Dining</div>
+            <div class="feature-item"><span class="material-symbols-outlined">wifi</span> High-speed Wi-Fi</div>
+            <div class="feature-item"><span class="material-symbols-outlined">spa</span> Wellness Spa</div>
+            <div class="feature-item"><span class="material-symbols-outlined">fitness_center</span> 24/7 Fitness Center</div>
+            <div class="feature-item"><span class="material-symbols-outlined">airport_shuttle</span> Airport Transfer</div>
+          </div>
+
+          <!-- Room Selection Section -->
+          <div style="border-top: 1px solid var(--border); padding-top: 36px; margin-top: 36px;">
+            <h2 style="font-size: 24px; font-weight: 850; margin-bottom: 6px;">Choose your room</h2>
+            <p style="color: var(--text-muted); font-size: 14px; margin-bottom: 24px;">18–21 October 2026 · 2 guests · Listing prices include platform fee</p>
+
+            <!-- Room Card 1: Ocean Suite -->
+            <div class="card" style="margin-bottom: 20px; padding: 20px;">
+              <div style="display: grid; grid-template-columns: 240px 1fr; gap: 24px;">
+                <img src="https://images.unsplash.com/photo-1564501049412-61c2a3083791?auto=format&fit=crop&w=500&q=80" alt="Ocean Suite" style="width:100%; height: 160px; object-fit: cover; border-radius: var(--radius-sm);">
+                <div style="display: flex; flex-direction: column; justify-content: space-between;">
+                  <div>
+                    <div style="display:flex; justify-content:space-between; align-items: flex-start;">
+                      <div>
+                        <h4 style="font-size: 19px; font-weight: 850;">Ocean Suite</h4>
+                        <p style="font-size: 13.5px; color: var(--text-muted); margin-top: 3px;">32 m² · 1 King bed · Private Balcony · Ocean View</p>
+                      </div>
+                      <div style="text-align: right;">
+                        <p class="card-price-val">$138 <span>/ night</span></p>
+                        <p style="font-size: 11px; color: var(--text-muted);">Base $120 + 15% platform fee</p>
+                      </div>
+                    </div>
+                    <div style="display: flex; gap: 8px; margin: 12px 0;">
+                      <span class="chip">Sleeps 2</span>
+                      <span class="chip chip-warning">1 room left</span>
+                    </div>
+                  </div>
+                  <div style="display: flex; justify-content: space-between; align-items: center; border-top: 1px solid var(--border); padding-top: 12px;">
+                    <button class="btn btn-sm btn-text" onclick="openModal('modal-facilities')">
+                      <span class="material-symbols-outlined" style="font-size: 16px;">info</span> View amenities & cancellation policy
+                    </button>
+                    <button class="btn btn-primary" onclick="navigate('booking')">Select Room</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Room Card 2: Garden Deluxe -->
+            <div class="card" style="margin-bottom: 20px; padding: 20px;">
+              <div style="display: grid; grid-template-columns: 240px 1fr; gap: 24px;">
+                <img src="https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?auto=format&fit=crop&w=500&q=80" alt="Garden Deluxe" style="width:100%; height: 160px; object-fit: cover; border-radius: var(--radius-sm);">
+                <div style="display: flex; flex-direction: column; justify-content: space-between;">
+                  <div>
+                    <div style="display:flex; justify-content:space-between; align-items: flex-start;">
+                      <div>
+                        <h4 style="font-size: 19px; font-weight: 850;">Garden Deluxe</h4>
+                        <p style="font-size: 13.5px; color: var(--text-muted); margin-top: 3px;">28 m² · 1 Queen bed · Garden View · Rain Shower</p>
+                      </div>
+                      <div style="text-align: right;">
+                        <p class="card-price-val">$106 <span>/ night</span></p>
+                        <p style="font-size: 11px; color: var(--text-muted);">Base $96 + 10% platform fee</p>
+                      </div>
+                    </div>
+                    <div style="display: flex; gap: 8px; margin: 12px 0;">
+                      <span class="chip">Sleeps 2</span>
+                      <span class="chip chip-success">Available</span>
+                    </div>
+                  </div>
+                  <div style="display: flex; justify-content: space-between; align-items: center; border-top: 1px solid var(--border); padding-top: 12px;">
+                    <button class="btn btn-sm btn-text" onclick="openModal('modal-facilities')">
+                      <span class="material-symbols-outlined" style="font-size: 16px;">info</span> View amenities & cancellation policy
+                    </button>
+                    <button class="btn btn-primary" onclick="navigate('booking')">Select Room</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Sticky Reservation Summary Card -->
+        <div class="sticky-box">
+          <h3 style="font-size: 18px; font-weight: 800; margin-bottom: 16px;">Plan your stay</h3>
+          <div style="background: var(--surface-alt); padding: 14px; border-radius: var(--radius-sm); margin-bottom: 16px;">
+            <p style="font-size: 13px; font-weight: 700; color: var(--text-main);">18 Oct 2026 — 21 Oct 2026</p>
+            <p style="font-size: 12px; color: var(--text-muted); margin-top: 2px;">3 nights · 2 guests · 1 room</p>
+          </div>
+          <div style="display:flex; justify-content:space-between; align-items: flex-end; margin-bottom: 16px;">
+            <span style="font-size: 13px; color: var(--text-muted);">From</span>
+            <div>
+              <span id="detail-hotel-price" style="font-size: 24px; font-weight: 900; color: var(--text-main);">$138</span>
+              <span style="font-size: 13px; color: var(--text-muted);">/ night</span>
+            </div>
+          </div>
+          <button class="btn btn-primary btn-lg btn-full" onclick="navigate('booking')">Proceed to checkout</button>
+          <p style="text-align: center; font-size: 11px; color: var(--text-muted); margin-top: 12px;">
+            Instant confirmation. Pure UI prototype demonstration.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- VIEW 4: MULTI-STEP BOOKING FLOW -->
+  <section id="view-booking" class="view-section">
+    <div class="container-md" style="padding-top: 36px; padding-bottom: 72px;">
+      <!-- Stepper Header -->
+      <div class="stepper">
+        <div class="step-item active" data-step="1">
+          <div class="step-num">1</div>
+          <span>Guest Details</span>
+        </div>
+        <div class="step-divider"></div>
+        <div class="step-item" data-step="2">
+          <div class="step-num">2</div>
+          <span>Review</span>
+        </div>
+        <div class="step-divider"></div>
+        <div class="step-item" data-step="3">
+          <div class="step-num">3</div>
+          <span>Payment</span>
+        </div>
+        <div class="step-divider"></div>
+        <div class="step-item" data-step="4">
+          <div class="step-num">4</div>
+          <span>Confirmation</span>
+        </div>
+      </div>
+
+      <!-- Layout: Booking Steps & Price Box -->
+      <div style="display: grid; grid-template-columns: 1.4fr 1fr; gap: 32px; align-items: start;">
+        <div>
+          <!-- STEP 1: GUEST DETAILS -->
+          <div id="booking-step-1" class="booking-step-content card" style="padding: 28px;">
+            <h2 style="font-size: 22px; font-weight: 850; margin-bottom: 6px;">Who's checking in?</h2>
+            <p style="color: var(--text-muted); font-size: 13.5px; margin-bottom: 24px;">Your reservation confirmation code will be sent to this contact.</p>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label class="form-label">Full Name *</label>
+                <input class="form-control" value="Alex Morgan">
+              </div>
+              <div class="form-group">
+                <label class="form-label">Email Address *</label>
+                <input class="form-control" type="email" value="alex@example.com">
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label class="form-label">Phone Number *</label>
+                <input class="form-control" value="+84 912 345 678">
+              </div>
+              <div class="form-group">
+                <label class="form-label">Estimated Arrival Time</label>
+                <input class="form-control" value="14:00 - 15:00">
+              </div>
+            </div>
+
+            <div class="alert alert-info">
+              <span class="material-symbols-outlined">info</span>
+              <div>Guest checkout is supported. No account registration is required to finalize booking.</div>
+            </div>
+
+            <button class="btn btn-primary btn-lg btn-full" style="margin-top: 12px;" onclick="goToStep(2)">
+              Continue to Review <span class="material-symbols-outlined">arrow_forward</span>
+            </button>
+          </div>
+
+          <!-- STEP 2: REVIEW RESERVATION -->
+          <div id="booking-step-2" class="booking-step-content card" style="display:none; padding: 28px;">
+            <h2 style="font-size: 22px; font-weight: 850; margin-bottom: 6px;">Review your reservation</h2>
+            <p style="color: var(--text-muted); font-size: 13.5px; margin-bottom: 20px;">Please double-check your dates and stay details before payment.</p>
+
+            <div class="card" style="padding: 16px; background: var(--surface-alt); margin-bottom: 20px;">
+              <h4 style="font-weight: 800; font-size: 15px;">Azure Bay Resort · Ocean Suite</h4>
+              <p style="font-size: 13px; color: var(--text-secondary); margin-top: 4px;">Check-in: <b>18 Oct 2026 (14:00)</b> · Check-out: <b>21 Oct 2026 (12:00)</b></p>
+              <p style="font-size: 13px; color: var(--text-secondary);">Primary Guest: <b>Alex Morgan</b> (alex@example.com · +84 912 345 678)</p>
+            </div>
+
+            <div class="alert alert-warning">
+              <span class="material-symbols-outlined">warning</span>
+              <div><b>Cancellation Policy:</b> 50% refund prior to check-in. The platform fee is snapshotted to the final invoice.</div>
+            </div>
+
+            <div style="display: flex; gap: 12px; margin-top: 24px;">
+              <button class="btn btn-outline" onclick="goToStep(1)">Back</button>
+              <button class="btn btn-primary btn-lg" style="flex:1;" onclick="goToStep(3)">
+                Continue to Payment <span class="material-symbols-outlined">credit_card</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- STEP 3: MOCK PAYMENT -->
+          <div id="booking-step-3" class="booking-step-content card" style="display:none; padding: 28px;">
+            <h2 style="font-size: 22px; font-weight: 850; margin-bottom: 6px;">Secure Payment</h2>
+            <p style="color: var(--text-muted); font-size: 13.5px; margin-bottom: 20px;">Demo card form — simulation only, no real charges will occur.</p>
+
+            <div class="form-group">
+              <label class="form-label">Card Number</label>
+              <div class="search-input-wrap">
+                <span class="material-symbols-outlined">credit_card</span>
+                <input type="text" value="4242 •••• •••• 4242">
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label class="form-label">Expiry Date</label>
+                <input class="form-control" value="12 / 28">
+              </div>
+              <div class="form-group">
+                <label class="form-label">CVC Security Code</label>
+                <input class="form-control" value="888">
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Cardholder Name</label>
+              <input class="form-control" value="Alex Morgan">
+            </div>
+
+            <div style="display: flex; gap: 12px; margin-top: 24px;">
+              <button class="btn btn-outline" onclick="goToStep(2)">Back</button>
+              <button class="btn btn-primary btn-lg" id="btn-pay-now" style="flex:1;" onclick="processPayment()">
+                Pay $414.00
+              </button>
+            </div>
+          </div>
+
+          <!-- STEP 4: CONFIRMATION SUCCESS -->
+          <div id="booking-step-4" class="booking-step-content card" style="display:none; padding: 36px 28px; text-align: center;">
+            <div style="width: 64px; height: 64px; border-radius: 50%; background: var(--success-bg); color: var(--success); display: grid; place-items: center; margin: 0 auto 16px;">
+              <span class="material-symbols-outlined" style="font-size: 36px;">check_circle</span>
+            </div>
+            <h2 style="font-size: 26px; font-weight: 900; letter-spacing: -0.5px;">Your stay is confirmed!</h2>
+            <p style="color: var(--text-muted); font-size: 14px; margin-top: 6px;">Reservation confirmation sent to <b>alex@example.com</b></p>
+
+            <div class="card" style="text-align: left; padding: 20px; background: var(--surface-alt); margin: 24px 0;">
+              <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 12px;">
+                <span style="font-size: 13px; color: var(--text-muted);">Booking Reference</span>
+                <span style="font-size: 16px; font-weight: 850; color: var(--primary);">STY-48291</span>
+              </div>
+              <p style="font-size: 14px; font-weight: 700;">Azure Bay Resort · Ocean Suite</p>
+              <p style="font-size: 13px; color: var(--text-muted); margin-top: 2px;">18–21 October 2026 · Alex Morgan (2 guests)</p>
+              <div style="margin-top: 14px; display:flex; justify-content:space-between; align-items:center;">
+                <span style="font-size: 13px; color: var(--text-muted);">Payment Status</span>
+                <span class="chip chip-success">Paid via Card</span>
+              </div>
+            </div>
+
+            <div style="display: flex; gap: 12px; justify-content: center;">
+              <button class="btn btn-outline" onclick="alert('Demo invoice downloaded as PDF.')">
+                <span class="material-symbols-outlined">receipt_long</span> Download Invoice
+              </button>
+              <button class="btn btn-primary" onclick="navigate('my-bookings')">
+                <span class="material-symbols-outlined">bookmark_check</span> View My Bookings
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Sticky Invoice Summary Box -->
+        <div class="invoice-box">
+          <h3 style="font-size: 16px; font-weight: 800; margin-bottom: 16px;">Invoice Summary</h3>
+          <div class="invoice-hotel-header">
+            <img class="invoice-hotel-img" src="https://images.unsplash.com/photo-1564501049412-61c2a3083791?auto=format&fit=crop&w=200&q=80" alt="Hotel">
+            <div>
+              <h4 style="font-size: 14.5px; font-weight: 800;">Azure Bay Resort</h4>
+              <p style="font-size: 12px; color: var(--text-muted);">Ocean Suite · 2 guests</p>
+            </div>
+          </div>
+          <p style="font-size: 13px; font-weight: 700;">18–21 October 2026</p>
+          <p style="font-size: 12px; color: var(--text-muted); margin-bottom: 16px;">3 nights · check-in after 14:00</p>
+          
+          <div class="invoice-row">
+            <span>Base price ($120 × 3 nights)</span>
+            <span>$360.00</span>
+          </div>
+          <div class="invoice-row">
+            <span>Platform fee (15%)</span>
+            <span>$54.00</span>
+          </div>
+          <p style="font-size: 11px; color: var(--text-muted); line-height: 1.4;">
+            Fee rate snapshotted to invoice upon payment completion.
+          </p>
+          <div class="invoice-row invoice-total">
+            <span>Listing Price</span>
+            <span>$414.00</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- VIEW 5: FIND A BOOKING (LOOKUP) -->
+  <section id="view-lookup" class="view-section">
+    <div class="container-sm" style="padding-top: 56px; padding-bottom: 80px;">
+      <div class="card" style="padding: 36px 32px;">
+        <span class="section-eyebrow">Guest Checkout</span>
+        <h2 style="font-size: 26px; font-weight: 850; margin: 4px 0 8px;">Find your booking</h2>
+        <p style="color: var(--text-muted); font-size: 14px; margin-bottom: 24px;">
+          For guest privacy, enter the booking reference code and the email address used during checkout.
+        </p>
+
+        <div class="form-group">
+          <label class="form-label">Booking Reference Code</label>
+          <input class="form-control" id="lookup-code" value="STY-48291">
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Email Address or Phone</label>
+          <input class="form-control" value="alex@example.com">
+        </div>
+
+        <button class="btn btn-primary btn-lg btn-full" style="margin-top: 8px;" onclick="lookupBooking()">
+          Find My Booking
+        </button>
+
+        <div id="lookup-result" style="display:none; margin-top: 24px;">
+          <!-- Populated by JavaScript -->
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- VIEW 6: MY BOOKINGS -->
+  <section id="view-my-bookings" class="view-section">
+    <div class="container" style="padding-top: 40px; padding-bottom: 80px;">
+      <div class="section-header">
+        <div>
+          <h2 class="section-title">My Bookings</h2>
+          <p class="section-desc">Manage upcoming reservations, view history, or request cancellations.</p>
+        </div>
+        <div style="display:flex; gap: 8px;">
+          <button class="btn btn-sm btn-primary">All Bookings</button>
+          <button class="btn btn-sm btn-outline">Upcoming</button>
+          <button class="btn btn-sm btn-outline">Past Stays</button>
+        </div>
+      </div>
+
+      <div class="card" style="margin-bottom: 20px; padding: 20px;">
+        <div style="display:flex; justify-content:space-between; align-items:flex-start; flex-wrap:wrap; gap: 16px;">
+          <div>
+            <span style="font-size: 12px; color: var(--text-muted); font-weight: 700;">STY-48291</span>
+            <h3 style="font-size: 18px; font-weight: 850; margin-top: 2px;">Azure Bay Resort</h3>
+            <p style="font-size: 13.5px; color: var(--text-secondary); margin-top: 4px;">Ocean Suite · 18–21 Oct 2026 (3 nights)</p>
+            <p style="font-size: 13px; color: var(--text-muted);">Guest: Alex Morgan · Total: $414.00 (Paid)</p>
+          </div>
+          <div style="display: flex; flex-direction: column; align-items: flex-end; gap: 12px;">
+            <span class="chip chip-success">Confirmed</span>
+            <div style="display:flex; gap: 8px;">
+              <button class="btn btn-sm btn-outline" style="color:var(--error); border-color:var(--error);" onclick="openCancelModal('STY-48291')">Request cancel</button>
+              <button class="btn btn-sm btn-outline-primary" onclick="navigate('hotels/azure-bay')">View stay</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card" style="margin-bottom: 20px; padding: 20px;">
+        <div style="display:flex; justify-content:space-between; align-items:flex-start; flex-wrap:wrap; gap: 16px;">
+          <div>
+            <span style="font-size: 12px; color: var(--text-muted); font-weight: 700;">STY-47520</span>
+            <h3 style="font-size: 18px; font-weight: 850; margin-top: 2px;">The Lantern Hoi An</h3>
+            <p style="font-size: 13.5px; color: var(--text-secondary); margin-top: 4px;">Garden Deluxe · 10–12 Oct 2026 (2 nights)</p>
+            <p style="font-size: 13px; color: var(--text-muted);">Guest: Jamie Lee · Total: $318.00 (Completed)</p>
+          </div>
+          <div style="display: flex; flex-direction: column; align-items: flex-end; gap: 12px;">
+            <span class="chip">Completed</span>
+            <button class="btn btn-sm btn-primary" onclick="navigate('review')">Write a review</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- VIEW 7: REVIEW YOUR STAY -->
+  <section id="view-review" class="view-section">
+    <div class="container-sm" style="padding-top: 56px; padding-bottom: 80px;">
+      <div class="card" style="padding: 36px 32px;">
+        <span class="section-eyebrow">Verified Guest Feedback</span>
+        <h2 style="font-size: 26px; font-weight: 850; margin: 4px 0 8px;">Review your stay</h2>
+        <p style="color: var(--text-muted); font-size: 14px; margin-bottom: 20px;">
+          The Lantern Hoi An · 10–12 Oct 2026 · Booking STY-47520
+        </p>
+
+        <div class="alert alert-success">
+          <span class="material-symbols-outlined">verified</span>
+          <div>Eligible to review: stay completed and checked out.</div>
+        </div>
+
+        <div class="form-group" style="margin-top: 20px;">
+          <label class="form-label">Your Rating</label>
+          <div style="display:flex; gap: 8px; font-size: 32px; color: #f59e0b; cursor: pointer;">
+            <span class="material-symbols-outlined" style="font-size: 32px; font-variation-settings: 'FILL' 1;">star</span>
+            <span class="material-symbols-outlined" style="font-size: 32px; font-variation-settings: 'FILL' 1;">star</span>
+            <span class="material-symbols-outlined" style="font-size: 32px; font-variation-settings: 'FILL' 1;">star</span>
+            <span class="material-symbols-outlined" style="font-size: 32px; font-variation-settings: 'FILL' 1;">star</span>
+            <span class="material-symbols-outlined" style="font-size: 32px; font-variation-settings: 'FILL' 1;">star</span>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Tell travelers about your experience</label>
+          <textarea class="form-control" rows="4" placeholder="How was the room, service, cleanliness, and breakfast?">Exceptional hospitality and wonderful gardens right by the ancient town. The breakfast buffet was fresh and delicious.</textarea>
+        </div>
+
+        <button class="btn btn-primary btn-lg btn-full" onclick="alert('Review submitted! Thank you for your feedback.'); navigate('home');">
+          Submit Review
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- VIEW 8: MANAGEMENT PORTALS (Owner, Staff, Admin) -->
+  <section id="view-portal" class="view-section">
+    <div class="portal-layout">
+      <!-- Portal Sidebar -->
+      <aside class="portal-sidebar">
+        <div class="portal-brand">
+          <a href="#home" class="brand-logo" style="font-size: 22px;">
+            <span class="brand-stay">stay</span><span class="brand-ora">ora</span>
+          </a>
+          <div style="margin-top: 10px;">
+            <span id="portal-role-tag" class="chip chip-primary" style="font-size: 11px;">Workspace</span>
+          </div>
+        </div>
+
+        <ul class="portal-nav" id="portal-nav-list">
+          <!-- Dynamic sidebar links based on role -->
+        </ul>
+
+        <div style="margin-top: auto; border-top: 1px solid var(--border); padding-top: 16px;">
+          <p style="font-size: 11px; color: var(--text-muted); text-transform: uppercase; font-weight: 700; margin-bottom: 8px;">Role Switcher</p>
+          <div style="display:flex; flex-direction:column; gap:4px;">
+            <a class="btn btn-sm btn-outline" style="justify-content: flex-start;" onclick="navigate('home')">← Guest Storefront</a>
+            <a class="btn btn-sm btn-outline" style="justify-content: flex-start;" onclick="navigate('owner/dashboard')">Hotel Owner</a>
+            <a class="btn btn-sm btn-outline" style="justify-content: flex-start;" onclick="navigate('staff/dashboard')">Hotel Staff</a>
+            <a class="btn btn-sm btn-outline" style="justify-content: flex-start;" onclick="navigate('admin/dashboard')">System Admin</a>
+          </div>
+        </div>
+      </aside>
+
+      <!-- Portal Main Body -->
+      <div class="portal-main">
+        <header class="portal-topbar">
+          <div style="display: flex; align-items: center; gap: 12px;">
+            <span class="chip" style="background: var(--surface-alt);">Prototype Mode</span>
+          </div>
+          <div style="display:flex; align-items:center; gap: 12px;">
+            <span class="chip chip-primary">
+              <span class="material-symbols-outlined" style="font-size: 16px;">account_circle</span> Avery Chen (Manager)
+            </span>
+          </div>
+        </header>
+
+        <main class="portal-content" id="portal-dynamic-content">
+          <!-- Populated by JavaScript -->
+        </main>
+      </div>
+    </div>
+  </section>
+
+  <!-- MODALS -->
+
+  <!-- Modal: Room Facilities Details -->
+  <div id="modal-facilities" class="modal-overlay">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 class="modal-title">Ocean Suite Facilities & Policy</h3>
+        <button class="btn btn-text" onclick="closeModal('modal-facilities')"><span class="material-symbols-outlined">close</span></button>
+      </div>
+      <div class="modal-body">
+        <p style="font-size: 13.5px; color: var(--text-muted); margin-bottom: 16px;">32 m² · 1 King bed · Ocean view · En-suite bathroom</p>
+        
+        <h4 style="font-size: 15px; font-weight: 800; margin-bottom: 10px;">Bathroom & Toiletries</h4>
+        <ul style="list-style: disc; margin-left: 20px; font-size: 13.5px; color: var(--text-secondary); line-height: 1.8;">
+          <li>Walk-in rain shower & separate deep bathtub</li>
+          <li>Bathrobes, premium toiletries, and hair dryer</li>
+        </ul>
+
+        <h4 style="font-size: 15px; font-weight: 800; margin: 16px 0 10px;">Entertainment & Connectivity</h4>
+        <ul style="list-style: disc; margin-left: 20px; font-size: 13.5px; color: var(--text-secondary); line-height: 1.8;">
+          <li>55-inch Smart TV with streaming access</li>
+          <li>High-speed fiber Wi-Fi included</li>
+        </ul>
+
+        <h4 style="font-size: 15px; font-weight: 800; margin: 16px 0 10px;">Comfort & Food</h4>
+        <ul style="list-style: disc; margin-left: 20px; font-size: 13.5px; color: var(--text-secondary); line-height: 1.8;">
+          <li>Air conditioning, blackout curtains, private sun balcony</li>
+          <li>Mini bar, Nespresso coffee machine & electric kettle</li>
+        </ul>
+
+        <div class="alert alert-warning" style="margin-top: 20px;">
+          <span class="material-symbols-outlined">policy</span>
+          <div><b>Cancellation Policy:</b> 50% refund on cancellations requested prior to check-in.</div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-outline" onclick="closeModal('modal-facilities')">Close</button>
+        <button class="btn btn-primary" onclick="closeModal('modal-facilities'); navigate('booking');">Select this room</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal: Request Cancellation -->
+  <div id="modal-cancel" class="modal-overlay">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 class="modal-title">Confirm Cancellation Request</h3>
+        <button class="btn btn-text" onclick="closeModal('modal-cancel')"><span class="material-symbols-outlined">close</span></button>
+      </div>
+      <div class="modal-body">
+        <p style="font-size: 14px; color: var(--text-secondary);">
+          You are submitting a cancellation request for booking reference: <b id="cancel-booking-ref">STY-48291</b>.
+        </p>
+        <div class="alert alert-warning" style="margin-top: 16px;">
+          <span class="material-symbols-outlined">warning</span>
+          <div>Refund amount is calculated following property cancellation policies. This UI mock notifies the hotel operations team.</div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-outline" onclick="closeModal('modal-cancel')">Keep Booking</button>
+        <button class="btn btn-danger" onclick="confirmCancelBooking()">Confirm Cancellation</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal: Admin Create Hotel & Owner -->
+  <div id="modal-create-hotel" class="modal-overlay">
+    <div class="modal-content" style="max-width: 720px;">
+      <div class="modal-header">
+        <h3 class="modal-title">Create New Hotel & Owner Account</h3>
+        <button class="btn btn-text" onclick="closeModal('modal-create-hotel')"><span class="material-symbols-outlined">close</span></button>
+      </div>
+      <div class="modal-body">
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">Hotel Name</label>
+            <input class="form-control" value="Riverside House Hoi An">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Classification & Commission</label>
+            <select class="form-control">
+              <option>3-Star (8% platform fee)</option>
+              <option selected>4-Star (10% platform fee)</option>
+              <option>5-Star (15% platform fee)</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Hotel Address</label>
+          <input class="form-control" value="12 Nguyen Thai Hoc, Hoi An, Vietnam">
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">Owner Full Name</label>
+            <input class="form-control" value="Taylor Nguyen">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Owner Email</label>
+            <input class="form-control" type="email" value="taylor@riverside.example">
+          </div>
+        </div>
+        <div class="alert alert-info">
+          <span class="material-symbols-outlined">mail</span>
+          <div>An automated onboarding invite email with a temporary credential setup link will be triggered.</div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-outline" onclick="closeModal('modal-create-hotel')">Cancel</button>
+        <button class="btn btn-primary" onclick="closeModal('modal-create-hotel'); alert('Hotel and Owner account created successfully in demo mode!');">Create & Send Invite</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal: Auth (Sign In / Register) -->
+  <div id="modal-auth" class="modal-overlay">
+    <div class="modal-content" style="max-width: 440px;">
+      <div class="modal-header">
+        <h3 class="modal-title">Welcome to Stayora</h3>
+        <button class="btn btn-text" onclick="closeModal('modal-auth')"><span class="material-symbols-outlined">close</span></button>
+      </div>
+      <div class="modal-body">
+        <button class="btn btn-outline btn-full" style="height: 46px; font-weight: 700; margin-bottom: 20px;" onclick="alert('Google OAuth flow mock triggered.'); closeModal('modal-auth');">
+          <svg width="18" height="18" viewBox="0 0 18 18" style="vertical-align:middle; margin-right:8px;"><path fill="#4285F4" d="M17.64 9.2c0-.637-.057-1.251-.164-1.84H9v3.481h4.844c-.209 1.125-.843 2.078-1.796 2.717v2.258h2.908c1.702-1.567 2.684-3.874 2.684-6.616z"/><path fill="#34A853" d="M9 18c2.43 0 4.467-.806 5.956-2.184l-2.908-2.258c-.806.54-1.837.86-3.048.86-2.344 0-4.328-1.584-5.036-3.711H.957v2.332C2.438 15.983 5.482 18 9 18z"/><path fill="#FBBC05" d="M3.964 10.707c-.18-.54-.282-1.117-.282-1.707s.102-1.167.282-1.707V4.961H.957C.347 6.173 0 7.548 0 9s.347 2.827.957 4.039l3.007-2.332z"/><path fill="#EA4335" d="M9 3.58c1.321 0 2.508.454 3.44 1.345l2.582-2.58C13.463.891 11.426 0 9 0 5.482 0 2.438 2.017.957 4.961L3.964 7.293C4.672 5.166 6.656 3.58 9 3.58z"/></svg>
+          Continue with Google
+        </button>
+        <div style="text-align:center; color:var(--text-muted); font-size:12px; margin-bottom: 20px; position:relative;">
+          <span style="background:white; padding:0 8px; position:relative; z-index:1;">or continue with email</span>
+          <div style="position:absolute; top:50%; left:0; right:0; height:1px; background:var(--border);"></div>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Email address</label>
+          <input class="form-control" type="email" placeholder="name@example.com" value="alex@example.com">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Password</label>
+          <input class="form-control" type="password" value="••••••••">
+        </div>
+        <button class="btn btn-primary btn-full btn-lg" onclick="alert('Signed in successfully in demo mode.'); closeModal('modal-auth');">
+          Sign In
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 3. FOOTER -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div>
+          <div class="brand-logo" style="font-size: 26px; margin-bottom: 14px;">
+            <span class="brand-stay">stay</span><span class="brand-ora">ora</span>
+          </div>
+          <p style="max-width: 320px; font-size: 14px; line-height: 1.6; color: #a3c2c0;">
+            Thoughtful stays, confidently booked. A comprehensive front-end prototype designed for clients and guests.
+          </p>
+        </div>
+        <div>
+          <h4 class="footer-title">Explore</h4>
+          <ul class="footer-links">
+            <li><a href="#search">Popular Stays</a></li>
+            <li><a href="#home#discover">Destinations</a></li>
+            <li><a href="#search">Special Offers</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4 class="footer-title">Workspaces</h4>
+          <ul class="footer-links">
+            <li><a href="#owner/dashboard">Hotel Owner</a></li>
+            <li><a href="#staff/dashboard">Hotel Staff</a></li>
+            <li><a href="#admin/dashboard">System Admin</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4 class="footer-title">Assistance</h4>
+          <ul class="footer-links">
+            <li><a href="#lookup">Find My Booking</a></li>
+            <li><a href="#my-bookings">Manage Reservation</a></li>
+            <li><a href="#review">Submit Feedback</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>© 2026 Stayora Hotel Platform. Mockup UI prototype for client demonstration.</span>
+        <span>Built with pure HTML5, CSS3, and Vanilla JavaScript. Zero runtime dependencies.</span>
+      </div>
+    </div>
+  </footer>
+
+  <!-- App Script -->
+  <script src="app.js"></script>
+</body>
+</html>
