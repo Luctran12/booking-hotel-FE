@@ -1,5 +1,5 @@
 /**
- * Stayora Mockup UI Application Logic
+ * AirCnC Mockup UI Application Logic
  * Pure JavaScript - Zero dependencies
  */
 
@@ -48,7 +48,7 @@ const hotelsData = [
 
 const bookingsData = [
   {
-    id: 'STY-48291',
+    id: 'CNC-48291',
     hotel: 'Azure Bay Resort',
     guest: 'Alex Morgan',
     email: 'alex@example.com',
@@ -62,7 +62,7 @@ const bookingsData = [
     fee: '$54.00 (15%)'
   },
   {
-    id: 'STY-47520',
+    id: 'CNC-47520',
     hotel: 'The Lantern Hoi An',
     guest: 'Jamie Lee',
     email: 'jamie@example.com',
@@ -445,7 +445,7 @@ function closeModal(id) {
 }
 
 function openCancelModal(bookingId) {
-  document.getElementById('cancel-booking-ref').textContent = bookingId || 'STY-48291';
+  document.getElementById('cancel-booking-ref').textContent = bookingId || 'CNC-48291';
   openModal('modal-cancel');
 }
 
@@ -703,8 +703,8 @@ function renderStaffSection(section, el) {
         <div class="form-group">
           <label class="form-label">Booking Reference Code</label>
           <div style="display:flex; gap: 8px;">
-            <input class="form-control" id="staff-booking-code" value="STY-48291">
-            <button class="btn btn-primary" onclick="alert('Booking STY-48291 verified.')">Search</button>
+            <input class="form-control" id="staff-booking-code" value="CNC-48291">
+            <button class="btn btn-primary" onclick="alert('Booking CNC-48291 verified.')">Search</button>
           </div>
         </div>
         <div class="card" style="padding: 20px; background: var(--surface-alt); margin: 20px 0;">
@@ -755,7 +755,7 @@ function renderStaffSection(section, el) {
               <td><b>Room 102</b></td>
               <td>Garden Deluxe</td>
               <td><span class="chip chip-warning">Occupied</span></td>
-              <td>Jamie Lee (STY-47520)</td>
+              <td>Jamie Lee (CNC-47520)</td>
               <td><button class="btn btn-sm btn-outline" onclick="alert('View details')">View</button></td>
             </tr>
             <tr>

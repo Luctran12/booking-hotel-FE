@@ -1,4 +1,4 @@
-/* Stayora Mockup UI Design System */
+/* AirCnC Mockup UI Design System */
 :root {
   --primary: #0f766e;
   --primary-hover: #115e59;
@@ -183,8 +183,8 @@ button, input, select, textarea {
   align-items: center;
 }
 
-.brand-stay { color: var(--secondary); }
-.brand-ora { color: var(--primary); }
+.brand-air, .brand-stay { color: var(--secondary); }
+.brand-cnc, .brand-ora { color: var(--primary); }
 
 .nav-links {
   display: flex;
