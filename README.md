@@ -106,13 +106,17 @@ flowchart TD
     O1 --> O6["Payouts & Bank Accounts"]
 ```
 
-- **Executive Overview**: High-level KPIs including Monthly Revenue, Total Bookings, Occupancy Rate (78%), and Average Daily Rate (ADR).
-- **Revenue & Commission Ledger**: Transparent itemization of gross guest receipts, AirCnC platform commission deduction (8% - 15%), and net owner payout.
-- **Property Settings**: Manage property descriptions, contact info, photo gallery, check-in policies, and featured amenities.
-- **Room Types & Rates**: Configure base rates, bed configurations, maximum guest capacity, and room availability.
-- **Physical Room Management**: Live status of physical room units (Available, Occupied, Maintenance).
-- **Staff Access Control**: Manage frontdesk staff accounts and operational permission levels.
-- **Payout Accounts**: Connected banking details and payout disbursement history.
+- **Executive Overview**: High-level KPIs including Monthly Gross Revenue ($12,840), Net Owner Payout ($10,914), Monthly Bookings (128), Occupancy Rate (78.4%), and Average Daily Rate (ADR $142.50). Includes a 30-day velocity chart with interactive Metric Toggling (Bookings vs Revenue) and an Operations Pulse bar (Check-ins, Check-outs, Cleaning, Maintenance).
+- **Property Settings & Media Gallery**: Tabbed property configuration interface:
+  - *General Info & Location*: Hotel name, address, contact details, check-in/out hours, and description.
+  - *Photo Gallery Manager*: Interactive media gallery with cover badge, upload simulation, and photo removal.
+  - *Amenities Checklist*: 10+ categorized amenities (Beachfront, Pool, High-speed Wi-Fi, Spa, Shuttle, etc.) with real-time toggle switches.
+  - *House Rules & Cancellation*: Presets for Flexible (100%), Moderate (50%), and Strict (0%) policies.
+- **Room Types & Dynamic Pricing**: Interactive room catalog with live **Add / Edit Room Type Modal** featuring an automated 15% AirCnC marketplace commission calculator (Base Rate + 15% Fee = Guest Listing Price) and active/pause listing toggles.
+- **Physical Room Operations & Housekeeping**: Interactive floor-by-floor room matrix grid (Floors 1 to 4) with color-coded status badges (Available, Occupied, Cleaning, Maintenance). Clicking any room opens the **Room Status Modal** to mark rooms cleaned, log maintenance notes, or inspect active guests.
+- **Guest Bookings & Folio Drawer**: Searchable reservations ledger with status filtering and a detailed **Booking Folio Modal** showing guest contact, room assignment, payment status, and net owner payout itemization.
+- **Staff Access Control**: Roster of property staff with roles (Frontdesk Lead, Receptionist, Housekeeping Supervisor), work shifts, and an interactive **Invite Staff Modal**.
+- **Payout Accounts & Disbursement**: Instant payout balance tracker ($3,420.00), connected bank credentials (Vietcombank Business), and an interactive **Request Payout Modal** with immediate simulated disbursement.
 
 ---
 

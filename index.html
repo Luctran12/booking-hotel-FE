@@ -795,11 +795,17 @@
       <div class="portal-main">
         <header class="portal-topbar">
           <div style="display: flex; align-items: center; gap: 12px;">
-            <span class="chip" style="background: var(--surface-alt);">Prototype Mode</span>
+            <span class="chip chip-primary" id="portal-topbar-property" style="font-weight: 700;">
+              <span class="material-symbols-outlined" style="font-size: 16px;">hotel</span> Azure Bay Resort
+            </span>
+            <span class="chip" style="background: var(--surface-alt);">Live Interactive Demo</span>
           </div>
           <div style="display:flex; align-items:center; gap: 12px;">
-            <span class="chip chip-primary">
-              <span class="material-symbols-outlined" style="font-size: 16px;">account_circle</span> Avery Chen (Manager)
+            <button class="btn btn-sm btn-outline" title="Notifications" onclick="showPortalToast('No unread operational alerts')">
+              <span class="material-symbols-outlined" style="font-size: 16px;">notifications</span>
+            </button>
+            <span class="chip" style="background: var(--surface-alt); font-weight: 700;">
+              <span class="material-symbols-outlined" style="font-size: 16px; color: var(--primary);">account_circle</span> Avery Chen (Owner)
             </span>
           </div>
         </header>
@@ -872,6 +878,242 @@
       <div class="modal-footer">
         <button class="btn btn-outline" onclick="closeModal('modal-cancel')">Keep Booking</button>
         <button class="btn btn-danger" onclick="confirmCancelBooking()">Confirm Cancellation</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal: Owner Add / Edit Room Type -->
+  <div id="modal-owner-room-type" class="modal-overlay">
+    <div class="modal-content" style="max-width: 640px;">
+      <div class="modal-header">
+        <h3 class="modal-title" id="room-type-modal-title">Add New Room Type</h3>
+        <button class="btn btn-text" onclick="closeModal('modal-owner-room-type')"><span class="material-symbols-outlined">close</span></button>
+      </div>
+      <div class="modal-body">
+        <input type="hidden" id="edit-room-type-id" value="">
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">Room Type Name *</label>
+            <input class="form-control" id="rt-name" placeholder="e.g. Executive Sunset Suite" value="Executive Sunset Suite">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Total Physical Units *</label>
+            <input class="form-control" id="rt-units" type="number" min="1" value="4">
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">Room Size (m²)</label>
+            <input class="form-control" id="rt-size" type="number" value="38">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Bed Setup</label>
+            <select class="form-control" id="rt-beds">
+              <option selected>1 King Bed</option>
+              <option>1 Queen Bed</option>
+              <option>2 Twin Beds</option>
+              <option>2 Queen Beds (Family)</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Max Capacity</label>
+            <select class="form-control" id="rt-capacity">
+              <option selected>2 Guests</option>
+              <option>3 Guests</option>
+              <option>4 Guests</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Owner Base Rate ($ / night) *</label>
+          <input class="form-control" id="rt-base-price" type="number" value="140" oninput="updatePricingCalculator()">
+          <p style="font-size: 11.5px; color: var(--text-muted); margin-top: 4px;">The net rate you receive per booked night.</p>
+        </div>
+        
+        <!-- Live Commission & Guest Price Calculation -->
+        <div class="pricing-calc-box">
+          <div class="pricing-calc-row">
+            <span>Owner Net Base Price:</span>
+            <span id="calc-base-val">$140.00</span>
+          </div>
+          <div class="pricing-calc-row">
+            <span>AirCnC Platform Commission (15%):</span>
+            <span id="calc-fee-val">+$21.00</span>
+          </div>
+          <div class="pricing-calc-total">
+            <span>Final Guest Listing Price:</span>
+            <span id="calc-total-val">$161.00 / night</span>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Key Highlights & Amenities</label>
+          <input class="form-control" id="rt-highlights" placeholder="e.g. Ocean View, Balcony, Espresso Machine, Rain Shower" value="Ocean View, Private Balcony, Bathtub, High-speed Wi-Fi">
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-outline" onclick="closeModal('modal-owner-room-type')">Cancel</button>
+        <button class="btn btn-primary" onclick="saveRoomTypeDemo()">Save Room Type</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal: Owner Physical Room Status -->
+  <div id="modal-owner-room-status" class="modal-overlay">
+    <div class="modal-content" style="max-width: 500px;">
+      <div class="modal-header">
+        <h3 class="modal-title">Room Operations: <span id="m-room-number">101</span></h3>
+        <button class="btn btn-text" onclick="closeModal('modal-owner-room-status')"><span class="material-symbols-outlined">close</span></button>
+      </div>
+      <div class="modal-body">
+        <input type="hidden" id="m-room-id" value="">
+        <div style="background: var(--surface-alt); padding: 14px; border-radius: var(--radius-sm); margin-bottom: 18px;">
+          <div style="display:flex; justify-content:space-between; margin-bottom: 6px;">
+            <span style="font-size: 12.5px; color: var(--text-muted);">Room Type:</span>
+            <span style="font-weight: 700;" id="m-room-typename">Garden Deluxe</span>
+          </div>
+          <div style="display:flex; justify-content:space-between;">
+            <span style="font-size: 12.5px; color: var(--text-muted);">Floor:</span>
+            <span style="font-weight: 600;" id="m-room-floorname">Floor 1</span>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Operational Status</label>
+          <select class="form-control" id="m-room-select-status" onchange="toggleRoomStatusDetails()">
+            <option value="available">🟢 Available (Cleaned & Ready)</option>
+            <option value="occupied">🔵 Occupied (Guest In-House)</option>
+            <option value="cleaning">🟡 Cleaning (Housekeeping Needed)</option>
+            <option value="maintenance">🔴 Maintenance (Out of Order)</option>
+          </select>
+        </div>
+
+        <div id="m-room-guest-box" style="display:none; background: #eff6ff; border: 1px solid #bfdbfe; border-radius: var(--radius-sm); padding: 14px; margin-bottom: 16px;">
+          <h5 style="font-size: 13px; font-weight: 800; color: #1e40af; margin-bottom: 4px;">Current Occupant Information</h5>
+          <p style="font-size: 13px; color: var(--text-secondary);" id="m-room-guest-desc">Jamie Lee · Booking CNC-47520 · Check-out tomorrow</p>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Housekeeping / Staff Notes</label>
+          <textarea class="form-control" id="m-room-notes" rows="2" placeholder="e.g. AC filter checked, extra towels delivered."></textarea>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-outline" onclick="closeModal('modal-owner-room-status')">Cancel</button>
+        <button class="btn btn-primary" onclick="saveRoomStatusDemo()">Update Status</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal: Owner Booking Detail Folio -->
+  <div id="modal-owner-booking-detail" class="modal-overlay">
+    <div class="modal-content" style="max-width: 620px;">
+      <div class="modal-header">
+        <h3 class="modal-title">Booking Folio: <span id="m-folio-id">CNC-48291</span></h3>
+        <button class="btn btn-text" onclick="closeModal('modal-owner-booking-detail')"><span class="material-symbols-outlined">close</span></button>
+      </div>
+      <div class="modal-body" id="m-folio-content">
+        <!-- Rendered dynamically by JavaScript -->
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-outline" onclick="showPortalToast('Print folio PDF generated')"><span class="material-symbols-outlined">print</span> Print Folio</button>
+        <button class="btn btn-primary" onclick="closeModal('modal-owner-booking-detail')">Close</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal: Owner Add Staff -->
+  <div id="modal-owner-add-staff" class="modal-overlay">
+    <div class="modal-content" style="max-width: 520px;">
+      <div class="modal-header">
+        <h3 class="modal-title">Invite New Staff Member</h3>
+        <button class="btn btn-text" onclick="closeModal('modal-owner-add-staff')"><span class="material-symbols-outlined">close</span></button>
+      </div>
+      <div class="modal-body">
+        <div class="form-group">
+          <label class="form-label">Full Name *</label>
+          <input class="form-control" id="staff-name" placeholder="e.g. Linh Tran" value="Linh Tran">
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">Email Address *</label>
+            <input class="form-control" id="staff-email" type="email" placeholder="linh@azurebay.example" value="linh@azurebay.example">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Phone Number</label>
+            <input class="form-control" id="staff-phone" value="+84 934 112 233">
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">Assigned Role</label>
+            <select class="form-control" id="staff-role">
+              <option selected>Frontdesk Lead</option>
+              <option>Receptionist</option>
+              <option>Housekeeping Supervisor</option>
+              <option>Duty Manager</option>
+              <option>Maintenance Specialist</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Work Shift</label>
+            <select class="form-control" id="staff-shift">
+              <option selected>Morning (06:00 - 14:00)</option>
+              <option>Evening (14:00 - 22:00)</option>
+              <option>Night (22:00 - 06:00)</option>
+              <option>Full-time Flexible</option>
+            </select>
+          </div>
+        </div>
+        <div class="alert alert-info" style="margin-top: 14px;">
+          <span class="material-symbols-outlined">badge</span>
+          <div>Credentials invitation email with setup link will be automatically generated.</div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-outline" onclick="closeModal('modal-owner-add-staff')">Cancel</button>
+        <button class="btn btn-primary" onclick="saveStaffMemberDemo()">Create Staff Account</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal: Owner Request Payout -->
+  <div id="modal-owner-request-payout" class="modal-overlay">
+    <div class="modal-content" style="max-width: 480px;">
+      <div class="modal-header">
+        <h3 class="modal-title">Request Revenue Payout</h3>
+        <button class="btn btn-text" onclick="closeModal('modal-owner-request-payout')"><span class="material-symbols-outlined">close</span></button>
+      </div>
+      <div class="modal-body">
+        <div style="background: var(--surface-alt); padding: 16px; border-radius: var(--radius-md); margin-bottom: 20px;">
+          <span style="font-size: 12.5px; color: var(--text-muted);">Available for Instant Payout</span>
+          <p style="font-size: 26px; font-weight: 900; color: var(--primary); margin: 4px 0;" id="payout-avail-num">$3,420.00</p>
+          <span style="font-size: 11.5px; color: var(--success); font-weight: 700;">✓ Ready to disburse</span>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Payout Destination</label>
+          <div style="display:flex; align-items:center; gap: 12px; padding: 12px; border: 1px solid var(--border); border-radius: var(--radius-sm);">
+            <span class="material-symbols-outlined" style="font-size: 24px; color: var(--primary);">account_balance</span>
+            <div>
+              <p style="font-size: 13.5px; font-weight: 700;">Vietcombank (Danang Branch)</p>
+              <p style="font-size: 12px; color: var(--text-muted);">Account ending in •••• 8892 · Stripe Verified</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Disbursement Amount ($)</label>
+          <input class="form-control" type="number" id="payout-req-amt" value="3420">
+        </div>
+
+        <p style="font-size: 12px; color: var(--text-muted); line-height: 1.5;">
+          Funds will arrive in your verified commercial account within 1–2 business days via Stripe Connect.
+        </p>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-outline" onclick="closeModal('modal-owner-request-payout')">Cancel</button>
+        <button class="btn btn-primary" onclick="confirmPayoutDemo()">Disburse Payout</button>
       </div>
     </div>
   </div>

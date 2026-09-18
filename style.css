@@ -1334,6 +1334,359 @@ input[type="date"]::-webkit-calendar-picker-indicator:hover {
   color: #7b9997;
 }
 
+/* --- Hotel Owner Portal Enhancements --- */
+
+/* Tabs Sub-navigation */
+.portal-tabs {
+  display: flex;
+  gap: 8px;
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 24px;
+  flex-wrap: wrap;
+}
+
+.portal-tab-btn {
+  padding: 10px 18px;
+  font-size: 13.5px;
+  font-weight: 700;
+  color: var(--text-muted);
+  background: none;
+  border: none;
+  border-bottom: 2px solid transparent;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  transition: all 0.15s ease;
+}
+
+.portal-tab-btn:hover {
+  color: var(--text-main);
+  background: var(--surface-alt);
+  border-radius: var(--radius-sm) var(--radius-sm) 0 0;
+}
+
+.portal-tab-btn.active {
+  color: var(--primary);
+  border-bottom-color: var(--primary);
+  background: var(--surface);
+}
+
+/* Operations Pulse Bar */
+.ops-pulse-bar {
+  display: flex;
+  gap: 16px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: 16px 20px;
+  margin-bottom: 24px;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.ops-pulse-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding-right: 18px;
+  border-right: 1px solid var(--border);
+}
+
+.ops-pulse-item:last-child {
+  border-right: none;
+}
+
+.ops-pulse-icon {
+  width: 36px;
+  height: 36px;
+  border-radius: 8px;
+  display: grid;
+  place-items: center;
+  font-size: 18px;
+}
+
+.ops-pulse-icon.green { background: #dcfce7; color: #15803d; }
+.ops-pulse-icon.blue { background: #dbeafe; color: #1d4ed8; }
+.ops-pulse-icon.amber { background: #fef3c7; color: #b45309; }
+.ops-pulse-icon.red { background: #fee2e2; color: #b91c1c; }
+
+/* Physical Room Matrix Grid */
+.room-floor-group {
+  margin-bottom: 24px;
+}
+
+.room-floor-header {
+  font-size: 13px;
+  font-weight: 800;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  letter-spacing: 0.5px;
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.room-matrix-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(136px, 1fr));
+  gap: 12px;
+}
+
+.room-node {
+  background: var(--surface);
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: 14px 12px;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  position: relative;
+  box-shadow: var(--shadow-sm);
+}
+
+.room-node:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+}
+
+.room-node-num {
+  font-size: 17px;
+  font-weight: 900;
+  color: var(--text-main);
+  margin-bottom: 2px;
+}
+
+.room-node-type {
+  font-size: 11px;
+  color: var(--text-muted);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin-bottom: 8px;
+}
+
+.room-node-badge {
+  display: inline-block;
+  font-size: 10.5px;
+  font-weight: 700;
+  padding: 3px 8px;
+  border-radius: var(--radius-full);
+}
+
+.room-node.status-available {
+  border-color: #86efac;
+  background: #f0fdf4;
+}
+.room-node.status-available .room-node-badge {
+  background: #dcfce7;
+  color: #166534;
+}
+
+.room-node.status-occupied {
+  border-color: #93c5fd;
+  background: #eff6ff;
+}
+.room-node.status-occupied .room-node-badge {
+  background: #dbeafe;
+  color: #1e40af;
+}
+
+.room-node.status-cleaning {
+  border-color: #fde047;
+  background: #fefce8;
+}
+.room-node.status-cleaning .room-node-badge {
+  background: #fef9c3;
+  color: #854d0e;
+}
+
+.room-node.status-maintenance {
+  border-color: #fca5a5;
+  background: #fef2f2;
+}
+.room-node.status-maintenance .room-node-badge {
+  background: #fee2e2;
+  color: #991b1b;
+}
+
+/* Media Photo Gallery */
+.owner-gallery-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 16px;
+  margin-top: 14px;
+}
+
+.owner-photo-card {
+  position: relative;
+  height: 140px;
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow-sm);
+  background: #e2e8f0;
+}
+
+.owner-photo-card img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.owner-photo-badge {
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  background: var(--primary);
+  color: white;
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-size: 10.5px;
+  font-weight: 700;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.25);
+}
+
+.owner-photo-delete {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  background: rgba(255, 255, 255, 0.9);
+  color: var(--error);
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  border: none;
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+  transition: all 0.15s;
+}
+
+.owner-photo-delete:hover {
+  background: var(--error);
+  color: white;
+}
+
+.owner-photo-upload-box {
+  border: 2px dashed var(--border);
+  border-radius: var(--radius-md);
+  height: 140px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  cursor: pointer;
+  background: var(--surface-alt);
+  color: var(--text-muted);
+  transition: all 0.15s ease;
+}
+
+.owner-photo-upload-box:hover {
+  border-color: var(--primary);
+  color: var(--primary);
+  background: var(--primary-light);
+}
+
+/* Amenity Checklist */
+.amenity-toggle-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
+  gap: 12px;
+  margin-top: 14px;
+}
+
+.amenity-checkbox-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 14px;
+  background: var(--surface-alt);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  font-size: 13.5px;
+  font-weight: 600;
+  cursor: pointer;
+  user-select: none;
+  transition: all 0.15s;
+}
+
+.amenity-checkbox-item:hover {
+  border-color: var(--primary);
+  background: white;
+}
+
+.amenity-checkbox-item input[type="checkbox"] {
+  width: 16px;
+  height: 16px;
+  accent-color: var(--primary);
+  cursor: pointer;
+}
+
+/* Pricing Calculator Box */
+.pricing-calc-box {
+  background: var(--primary-light);
+  border: 1px solid #bbf7d0;
+  border-radius: var(--radius-md);
+  padding: 16px;
+  margin: 16px 0;
+}
+
+.pricing-calc-row {
+  display: flex;
+  justify-content: space-between;
+  font-size: 13px;
+  color: var(--text-secondary);
+  margin-bottom: 6px;
+}
+
+.pricing-calc-total {
+  display: flex;
+  justify-content: space-between;
+  font-size: 15px;
+  font-weight: 800;
+  color: var(--primary-dark);
+  padding-top: 8px;
+  border-top: 1px dashed rgba(15, 118, 110, 0.3);
+  margin-top: 8px;
+}
+
+/* Toolbar Controls */
+.portal-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-bottom: 20px;
+}
+
+/* Toast alert */
+.portal-toast {
+  position: fixed;
+  bottom: 28px;
+  right: 28px;
+  z-index: 3000;
+  background: white;
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-xl);
+  border-left: 4px solid var(--primary);
+  padding: 14px 20px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  animation: slideInRight 0.3s ease;
+}
+
+@keyframes slideInRight {
+  from { transform: translateX(100%); opacity: 0; }
+  to { transform: translateX(0); opacity: 1; }
+}
+
 /* Views Management: show only the active view */
 .view-section {
   display: none;
